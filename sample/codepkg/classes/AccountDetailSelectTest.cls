@@ -1,6 +1,6 @@
 @isTest
-private class AccountDetailSelectTest
-{
+private class AccountDetailSelectTest{
+
 	static{
 		Account acc = new Account(Name ='Account Test');
 		insert acc;
@@ -10,4 +10,5 @@ private class AccountDetailSelectTest
 		AccountDetailSelect accTest = new AccountDetailSelect();
 		accTest.getAcc();
 	}
+
 }
