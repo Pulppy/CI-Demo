@@ -1,4 +1,5 @@
 <apex:page showHeader="true" sidebar="true" controller="StudentClassCI">
+	<!-- Display Map -->
 	<apex:pageBlock>
 		<apex:pageBlockTable value="{!mapHocSinh}" var="item">
 			<apex:column value="{!item}"/>
