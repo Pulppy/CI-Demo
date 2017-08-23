@@ -1,0 +1,101 @@
+<project name="Sample usage of Salesforce Ant tasks" default="deploy" basedir="." xmlns:sf="antlib:com.salesforce">
+
+	<property file="build.properties"/>
+	<property environment="env"/>
+	<property name="workspacedir" location="../../"/>
+	<property environment="${workDir}/${workBackUpDir}" relative="true"/>
+
+	<!-- Setting default value for username, password and session id properties to empty string 
+			 so unset values are treated as empty. Without this, ant expressions such as ${to.username}
+			 will be treated literally.
+	-->
+	
+	<echo>${xmlUpload}</echo>
+	
+	<taskdef resource="com/salesforce/antlib.xml" uri="antlib:com.salesforce">
+			<classpath>
+					<pathelement location="../ant-salesforce.jar" />
+			</classpath>
+	</taskdef>
+	<!-- ==================================================== -->
+
+
+	<taskdef resource="net/sf/antcontrib/antcontrib.properties">
+		<classpath>
+			<pathelement location="../ant-contrib-0.3.jar"/>
+		</classpath>
+	</taskdef>
+	<!-- ==================================================== -->
+
+
+	<!-- Get File 1 -->
+	<fileset id="dist.contents" dir="${workcodepkg}\classes" >
+		<!-- <include name="**/*.cls"/> -->
+		<exclude name="**/*.xml"/>
+		<include name="**/*Test*"/>
+	</fileset> 
+	<property name="prop.dist.contents" refid="dist.contents"/>
+	<!-- ==================================================== -->
+
+
+	<!-- Start Deploy Without Test -->
+	<!-- Shows deploying code with no TestLevel sepcified -->
+	<target name="deployCodeNoTestLevelSpecified">
+		<sf:deploy username="${to.username}"
+						password="${to.password}"
+						serverurl="${to.serverurl}"
+						maxPoll="${maxPoll}"
+						deployRoot="${workDir}\${workcodepkg}"
+						rollbackOnError="true"/>
+	</target>
+	<!-- End Deploy Without Test -->
+	<!-- ==================================================== -->
+
+
+	<!-- Start Dynamic Deploy With TestClass -->
+	<!-- Shows deploying code & running tests for code in directory -->
+	<target name="deployCodeTestLevelSpecified">
+		<!-- Upload the contents of the "codepkg" directory, running the tests for just 1 class -->
+		<script language="javascript"><![CDATA[
+			var deployTask = project.createTask('antlib:com.salesforce:deploy');
+			deployTask.setUsername(project.getProperty("to.username"));
+			deployTask.setPassword(project.getProperty("to.password"));
+			deployTask.setServerURL(project.getProperty("to.serverurl"));
+			deployTask.setDeployRoot(project.getProperty("workcodepkg"));
+			deployTask.setMaxPoll(project.getProperty("maxPoll"));
+			deployTask.setTestLevel('RunSpecifiedTests');
+			var tests = project.getProperty("prop.dist.contents");
+			if (tests) {
+				tests = tests.replace(/.cls/g,"");
+				var testList = tests.split(';');
+				for (var i = 0; i < testList.length; i++) {
+					var runTest = java.lang.Class.forName("com.salesforce.ant.DeployTask$CodeNameElement").newInstance();
+					runTest.addText(testList[i]);
+					deployTask.addRunTest(runTest);
+				}
+				deployTask.perform();
+			}
+		]]></script>
+	</target>
+	<!-- End Dynamic Deploy With TestClass -->
+	<!-- ==================================================== -->
+
+
+	<!-- Start Deploy With Local Test Run -->
+	<!-- Shows deploying code and running tests only within the org namespace -->
+	<target name="deployCodeRunLocalTests">
+		<sf:deploy username="${to.username}" password="${to.password}" serverurl="${to.serverurl}" maxPoll="${maxPoll}" deployRoot="${workDir}\${workcodepkg}" rollbackOnError="true"  testlevel="RunLocalTests"/>
+	</target>
+	<!-- End Deploy With Local Test Run -->
+	<!-- ==================================================== -->
+
+
+	<!--  Start Deploy With Org Test Run -->
+	<!-- Shows deploying code, running all tests, and running tests (1 of which fails), and logging. -->
+	<target name="deployCodeRunAllTestsInOrg">
+		<!-- Upload the contents of the "codepkg" package, running all tests -->
+		<sf:deploy username="${to.username}" password="${to.password}" serverurl="${to.serverurl}" maxPoll="${maxPoll}" deployRoot="${workDir}\${workcodepkg}" testLevel="RunAllTestsInOrg" rollbackOnError="true" logType="Debugonly"/>
+	</target>
+	<!--  End Deploy With Org Test Run -->
+
+</project>
