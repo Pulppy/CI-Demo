@@ -10,4 +10,5 @@ public with sharing class AccountDetailSelect {
 		Account acc = [Select Id, Name from Account];
 		return acc;
 	}
+	// Commit Merge
 }
