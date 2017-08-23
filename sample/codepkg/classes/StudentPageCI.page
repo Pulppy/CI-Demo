@@ -1,0 +1,8 @@
+<apex:page showHeader="true" sidebar="true" controller="StudentClassCI">
+	<apex:pageBlock>
+		<apex:pageBlockTable value="{!mapHocSinh}" var="item">
+			<apex:column value="{!item}"/>
+			<apex:column value="{!mapHocSinh[item].TenHocSinh__c}"/>
+		</apex:pageBlockTable>
+	</apex:pageBlock>
+</apex:page>
