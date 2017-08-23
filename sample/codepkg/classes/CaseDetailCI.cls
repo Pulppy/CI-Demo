@@ -9,5 +9,4 @@ public with sharing class CaseDetailCI {
 		Case acc = [Select Id, Status from Case limit 1];
 		return acc;
 	}
-	// Change Deloy Type
 }
