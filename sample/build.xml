@@ -108,7 +108,7 @@
 						rollbackOnError="true"/>
 			<!-- Run only tests with file names that match this pattern -->
 			<junitreport todir="${workDir}\${workcodepkg}">
-				<fileset dir="${workDir}\${workcodepkg}">
+				<fileset dir="${workDir}\Report">
 					<include name="TEST-*.xml"/>
 				</fileset>
 				<report format="frames" todir="${workDir}\Report"/>
