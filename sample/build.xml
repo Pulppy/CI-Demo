@@ -99,20 +99,18 @@
 	<!--  End Deploy With Org Test Run -->
 	
 	<!--  Start Deploy With Org Test Run and Report -->
-	<target name="testReport">
-		
-		<delete dir="test-report-xml" quiet="true"/>
+	<target name="deployAndTestAndReport">
 		<sfdeploy
 			username="${to.username}"
 			password="${to.password}"
 			serverurl="${to.serverurl}"
-			deployRoot="src"
+			deployRoot="${workDir}\${workcodepkg}"
 			testLevel="RunLocalTests"
 			junitreportdir="test-report-xml"
 			>
 			<!-- Run only tests with file names that match this pattern -->
 			<batchtest>
-				<fileset dir="src/classes">
+				<fileset dir="${workDir}\${workcodepkg}">
 					<include name="*Test.cls"/>
 				</fileset>
 			</batchtest>
