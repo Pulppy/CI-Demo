@@ -101,11 +101,26 @@
 	<!--  Start Deploy With Org Test Run and Report -->
 	<target name="deployAndTestAndReport">
 		<!-- Upload the contents of the "codepkg" directory, running the tests for just 1 class -->
-		<sf:deploy username="${to.username}" password="${to.password}" serverurl="${to.serverurl}" maxPoll="${maxPoll}" deployRoot="${workDir}\${workcodepkg}" testLevel="RunSpecifiedTests" rollbackOnError="true">
-			<runTest>AccountDetailSelectTest</runTest> 
-			<runTest>CaseDetailCITest</runTest> 
-			<runTest>StudentClassCITest</runTest> 
-		</sf:deploy>
+		<script language="javascript"><![CDATA[
+			var deployTask = project.createTask('antlib:com.salesforce:deploy');
+			deployTask.setUsername(project.getProperty("to.username"));
+			deployTask.setPassword(project.getProperty("to.password"));
+			deployTask.setServerURL(project.getProperty("to.serverurl"));
+			deployTask.setDeployRoot(project.getProperty("workcodepkg"));
+			deployTask.setMaxPoll(project.getProperty("maxPoll"));
+			deployTask.setTestLevel('RunSpecifiedTests');
+			var tests = project.getProperty("prop.dist.contents");
+			if (tests) {
+				tests = tests.replace(/.cls/g,"");
+				var testList = tests.split(';');
+				for (var i = 0; i < testList.length; i++) {
+					var runTest = java.lang.Class.forName("com.salesforce.ant.DeployTask$CodeNameElement").newInstance();
+					runTest.addText(testList[i]);
+					deployTask.addRunTest(runTest);
+				}
+				deployTask.perform();
+			}
+		]]></script>
 		<junitreport todir="${workDir}\${workcodepkg}">
 			<fileset dir="${workDir}\${workcodepkg}">
 				<include name="TEST-*.xml"/>
