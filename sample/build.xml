@@ -99,10 +99,6 @@
 	<!--  End Deploy With Org Test Run -->
 	
 	<!--  Start Deploy With Org Test Run and Report -->
-	<path id="ant.additions.classpath">
-		<fileset dir="ant"/>
-	</path>
-
 	<target name="testReport">
 		<taskdef
 			name="sfdeploy"
