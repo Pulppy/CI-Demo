@@ -106,7 +106,6 @@
 			serverurl="${to.serverurl}"
 			deployRoot="${workDir}\${workcodepkg}"
 			testLevel="RunLocalTests"
-			junitreportdir="test-report-xml"
 			>
 			<!-- Run only tests with file names that match this pattern -->
 			<batchtest>
