@@ -100,11 +100,7 @@
 	
 	<!--  Start Deploy With Org Test Run and Report -->
 	<target name="testReport">
-		<taskdef
-			name="sfdeploy"
-			classname="com.salesforce.ant.DeployWithXmlReportTask"
-			classpathref="ant.additions.classpath"
-			/>
+		
 		<delete dir="test-report-xml" quiet="true"/>
 		<sfdeploy
 			username="${to.username}"
