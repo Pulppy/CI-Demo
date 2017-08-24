@@ -76,7 +76,12 @@
 				deployTask.perform();
 			}
 		]]></script>
-	
+		<junitreport todir="${workDir}\${workcodepkg}">
+			<fileset dir="${workDir}\${workcodepkg}">
+				<include name="TEST-*.xml"/>
+			</fileset>
+			<report format="frames" todir="${workDir}\${workcodepkg}"/>
+		</junitreport>
 	</target>
 	<!-- End Dynamic Deploy With TestClass -->
 	<!-- ==================================================== -->
