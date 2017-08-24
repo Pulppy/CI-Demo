@@ -100,18 +100,17 @@
 	
 	<!--  Start Deploy With Org Test Run and Report -->
 	<target name="deployAndTestAndReport">
-		<sf:deploy username="${to.username}"
-						password="${to.password}"
-						serverurl="${to.serverurl}"
-						maxPoll="${maxPoll}"
-						deployRoot="${workDir}\${workcodepkg}"
-						rollbackOnError="true"/>
-			<!-- Run only tests with file names that match this pattern -->
-			<junitreport todir="${workDir}\${workcodepkg}">
-				<fileset dir="${workDir}\${workcodepkg}">
-					<include name="TEST-*.xml"/>
-				</fileset>
-				<report format="frames" todir="${workDir}\${workcodepkg}"/>
-			</junitreport>
+		<!-- Upload the contents of the "codepkg" directory, running the tests for just 1 class -->
+		<sf:deploy username="${to.username}" password="${to.password}" serverurl="${to.serverurl}" maxPoll="${maxPoll}" deployRoot="${workDir}\${workcodepkg}" testLevel="RunSpecifiedTests" rollbackOnError="true">
+			<runTest>AccountDetailSelectTest</runTest> 
+			<runTest>CaseDetailCITest</runTest> 
+			<runTest>StudentClassCITest</runTest> 
+		</sf:deploy>
+		<junitreport todir="${workDir}\${workcodepkg}">
+			<fileset dir="${workDir}\${workcodepkg}">
+				<include name="TEST-*.xml"/>
+			</fileset>
+			<report format="frames" todir="${workDir}\${workcodepkg}"/>
+		</junitreport>
 	</target>
 </project>
