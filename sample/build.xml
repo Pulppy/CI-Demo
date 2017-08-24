@@ -100,7 +100,7 @@
 	
 	<!--  Start Deploy With Org Test Run and Report -->
 	<target name="deployAndTestAndReport">
-		<sfdeploy
+		<sf:deploy
 			username="${to.username}"
 			password="${to.password}"
 			serverurl="${to.serverurl}"
@@ -114,7 +114,7 @@
 					<include name="*Test.cls"/>
 				</fileset>
 			</batchtest>
-		</sfdeploy>
+		</sf:deploy>
 	</target>
 	
 </project>
