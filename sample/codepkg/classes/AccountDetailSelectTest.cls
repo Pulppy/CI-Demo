@@ -8,7 +8,7 @@ private class AccountDetailSelectTest{
 
 	static testMethod void testGetStudent() {
 		AccountDetailSelect accTest = new AccountDetailSelect();
-		accTest.getAcc();
+		// accTest.getAcc();
 	}
 
 }
