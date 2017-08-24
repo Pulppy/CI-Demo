@@ -111,7 +111,7 @@
 				<fileset dir="${workDir}\${workcodepkg}">
 					<include name="TEST-*.xml"/>
 				</fileset>
-				<report format="frames" todir="${workDir}\${workcodepkg}"/>
+				<report format="frames" todir="${workDir}\Report"/>
 			</junitreport>
 	</target>
 </project>
