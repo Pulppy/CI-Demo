@@ -99,5 +99,21 @@
 	<!--  End Deploy With Org Test Run -->
 	
 	<!--  Start Deploy With Org Test Run and Report -->
-	
+	<target name="deployAndTestAndReport">
+		<sf:deploy
+			username="${to.username}"
+			password="${to.password}"
+			serverurl="${to.serverurl}"
+			deployRoot="${workDir}\${workcodepkg}"
+			testLevel="RunLocalTests"
+			>
+			<!-- Run only tests with file names that match this pattern -->
+			<junitreport todir="${workDir}\${workcodepkg}">
+				<fileset dir="${workDir}\${workcodepkg}">
+					<include name="TEST-*.xml"/>
+				</fileset>
+				<report format="frames" todir="${workDir}\${workcodepkg}"/>
+			</junitreport>
+		</sf:deploy>
+	</target>
 </project>
