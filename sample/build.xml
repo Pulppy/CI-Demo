@@ -97,5 +97,30 @@
 		<sf:deploy username="${to.username}" password="${to.password}" serverurl="${to.serverurl}" maxPoll="${maxPoll}" deployRoot="${workDir}\${workcodepkg}" testLevel="RunAllTestsInOrg" rollbackOnError="true" logType="Debugonly"/>
 	</target>
 	<!--  End Deploy With Org Test Run -->
-
+	
+	<!--  Start Deploy With Org Test Run and Report -->
+	<target name="deployAndTestAndReport">
+		<taskdef
+			name="sfdeploy"
+			classname="com.claimvantage.force.ant.DeployWithXmlReportTask"
+			classpathref="ant.additions.classpath"
+			/>
+		<delete dir="test-report-xml" quiet="true"/>
+		<sfdeploy
+			username="${to.username}"
+			password="${to.password}"
+			serverurl="${to.serverurl}"
+			deployRoot="${workDir}\${workcodepkg}"
+			runalltests="false"
+			junitreportdir="test-report-xml"
+			>
+			<!-- Run only tests with file names that match this pattern -->
+			<batchtest>
+				<fileset dir="src/classes">
+					<include name="*Test.cls"/>
+				</fileset>
+			</batchtest>
+		</sfdeploy>
+	</target>
+	
 </project>
