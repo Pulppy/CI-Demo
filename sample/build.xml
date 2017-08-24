@@ -113,6 +113,5 @@
 				</fileset>
 				<report format="frames" todir="${workDir}\${workcodepkg}"/>
 			</junitreport>
-		</sf:deploy>
 	</target>
 </project>
