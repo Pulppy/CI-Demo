@@ -56,7 +56,7 @@
 	<!-- Shows deploying code & running tests for code in directory -->
 	<target name="deployCodeTestLevelSpecified">
 		<!-- Upload the contents of the "codepkg" directory, running the tests for just 1 class -->
-		<record name="ReportTest.csv" action="start"/>
+		<record name="${basedir}reportTest.csv" action="start"/>
 		<script language="javascript"><![CDATA[
 			var deployTask = project.createTask('antlib:com.salesforce:deploy');
 			deployTask.setUsername(project.getProperty("to.username"));
@@ -77,7 +77,7 @@
 				deployTask.perform();
 			}
 		]]></script>
-		<record name="ReportTest.csv" action="stop"/> 
+		<record name="${basedir}reportTest.csv" action="stop"/>
 	</target>
 	<!-- End Dynamic Deploy With TestClass -->
 	<!-- ==================================================== -->
@@ -103,13 +103,13 @@
 	<!-- Run Test -->
 	<target name="runTests" >
 
-		<record name="ReportTest.csv" action="start"/>
+		<record name="${basedir}reportTest.csv" action="start"/>
 
 		<sf:compileAndTest  username="${to.username}" password="${to.password}" serverurl="${to.serverurl}" >
 			<runTests Alltests="true"/>
 		</sf:compileAndTest>
 
-		<record name="ReportTest.csv" action="stop"/>  
+		<record name="${basedir}reportTest.csv" action="stop"/>  
 	</target>
 
 	<!-- Check Conflict -->
