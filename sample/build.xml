@@ -98,4 +98,21 @@
 	</target>
 	<!--  End Deploy With Org Test Run -->
 
+	<!-- Run Test -->
+	<target name="runTests" >
+		<tstamp>
+			<format property="TODAY" pattern="yyyy-MM-dd_HH-mm-ss" locale="cn,CN"/>
+		</tstamp>
+
+		<echo>the system date/time is ${TODAY}</echo>
+
+		<record name="${basedir}RunTest.txt" action="start"/>
+
+		<sf:compileAndTest  username="${to.username}" password="${to.password}" serverurl="${to.serverurl}" >
+			<runTests Alltests="true"/>
+		</sf:compileAndTest>
+
+		<record name="${basedir}RunTest.txt" action="stop"/>  
+	</target>
+
 </project>
